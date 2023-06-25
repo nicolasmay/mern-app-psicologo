@@ -1,7 +1,10 @@
-import React from "react";
+import { useAuth } from "../context/AuthContext";
 
-const CitasPage = () => {
-  return <div></div>;
-};
+function CitasPage() {
+  const { user } = useAuth();
+  console.log(user);
+
+  return <div>Pagina de citas</div>;
+}
 
 export default CitasPage;
