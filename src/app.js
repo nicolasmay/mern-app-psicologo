@@ -8,7 +8,11 @@ import citaRoutes from "./routes/cita.routes.js";
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  })
+);
 app.use(morgan("dev"));
 /*
 Se usa ya que express no puede leer los datos que se envian desde un formulario

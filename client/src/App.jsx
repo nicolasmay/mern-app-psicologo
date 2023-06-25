@@ -1,25 +1,29 @@
-import {BrowserRouter, Route, Routes} from 'react-router-dom'
-import {AuthProvider} from './context/AuthContext'
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
 
-import RegisterPage from './pages/RegisterPage'
-import LoginPage from './pages/LoginPage'
+import RegisterPage from "./pages/RegisterPage";
+import LoginPage from "./pages/LoginPage";
+import CitasPage from "./pages/CitasPage";
+import HomePage from "./pages/HomePage";
+import CitasFormPage from "./pages/CitasFormPage";
+import ProfilePage from "./pages/ProfilePage";
 
 function App() {
-  return(
-  <AuthProvider>
+  return (
+    <AuthProvider>
       <BrowserRouter>
-     <Routes>
-      <Route path="/" element={<h1>Home page</h1>}/>
-      <Route path="/login" element={<LoginPage />}/>
-      <Route path="/register" element={<RegisterPage />}/>
-      <Route path="/citas" element={<h1>Citas</h1>}/>
-      <Route path="/add-citas" element={<h1>Agregar citas</h1>}/>
-      <Route path="/citas/:id" element={<h1>Actualizar citas</h1>}/>
-      <Route path="/profile" element={<h1>Perfil de usuario</h1>}/>
-      </Routes>
-       </BrowserRouter>
-  </AuthProvider>
-  )
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/citas" element={<CitasPage />} />
+          <Route path="/add-citas" element={<CitasFormPage />} />
+          <Route path="/citas/:id" element={<CitasFormPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
+  );
 }
 
-export default App
+export default App;
