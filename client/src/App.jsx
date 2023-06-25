@@ -7,6 +7,7 @@ import CitasPage from "./pages/CitasPage";
 import HomePage from "./pages/HomePage";
 import CitasFormPage from "./pages/CitasFormPage";
 import ProfilePage from "./pages/ProfilePage";
+import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
   return (
@@ -16,10 +17,13 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/citas" element={<CitasPage />} />
-          <Route path="/add-citas" element={<CitasFormPage />} />
-          <Route path="/citas/:id" element={<CitasFormPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
+
+          <Route element={<ProtectedRoute />}>
+            <Route path="/citas" element={<CitasPage />} />
+            <Route path="/add-citas" element={<CitasFormPage />} />
+            <Route path="/citas/:id" element={<CitasFormPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </AuthProvider>
