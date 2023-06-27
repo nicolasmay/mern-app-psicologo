@@ -1,10 +1,14 @@
 import Cita from "../models/citas.model.js";
 
 export const getCitas = async (req, res) => {
-  const citas = await Cita.find({
-    user: req.user.id,
-  }).populate("user");
-  res.json(citas);
+  try {
+    const citas = await Cita.find({
+      user: req.user.id,
+    }).populate("user");
+    res.json(citas);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
 };
 export const createCita = async (req, res) => {
   const { paciente, comentario, date } = req.body;

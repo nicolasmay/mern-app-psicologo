@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 function LoginPage() {
   const {
@@ -9,11 +10,15 @@ function LoginPage() {
     formState: { errors },
   } = useForm();
 
-  const { signin, errors: signingErrors } = useAuth();
-
+  const { signin, errors: signingErrors, isAuthenticated } = useAuth();
+  const navigate = useNavigate();
   const onSubmit = handleSubmit((data) => {
     signin(data);
   });
+
+  useEffect(() => {
+    if (isAuthenticated) navigate("/citas");
+  }, [isAuthenticated]);
   //Estilos 2:43:00
   return (
     <div className="flex h-[calc(100vh-100px)] items-center justify-center">

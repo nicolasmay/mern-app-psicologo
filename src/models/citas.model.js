@@ -15,7 +15,7 @@ const citasSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
-
+    //3:35:14
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
