@@ -11,10 +11,12 @@ export const getCitas = async (req, res) => {
   }
 };
 export const createCita = async (req, res) => {
-  const { paciente, comentario, date } = req.body;
+  const { paciente, nombre, apellido, comentario, date } = req.body;
   console.log(req.user);
   const newCita = new Cita({
     paciente,
+    nombre,
+    apellido,
     comentario,
     date,
     user: req.user.id,
@@ -29,14 +31,18 @@ export const getCita = async (req, res) => {
   res.json(cita);
 };
 export const updateCita = async (req, res) => {
-  const cita = await Cita.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-  });
-  if (!cita) return res.status(404).json({ message: "Cita no encontrada" });
-  res.json(cita);
+  try {
+    const cita = await Cita.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    if (!cita) return res.status(404).json({ message: "Cita no encontrada" });
+    res.json(cita);
+  } catch (error) {
+    return res.status(404).json({ message: "cita no encontrada" });
+  }
 };
 export const deleteCita = async (req, res) => {
   const cita = await Cita.findByIdAndDelete(req.params.id);
   if (!cita) return res.status(404).json({ message: "Cita no encontrada" });
-  return res.sendStatus(204).json({ message: "Cita eliminada" });
+  return res.sendStatus(204);
 };
