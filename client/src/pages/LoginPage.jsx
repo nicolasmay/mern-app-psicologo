@@ -10,7 +10,7 @@ function LoginPage() {
     formState: { errors },
   } = useForm();
 
-  const { signin, errors: signingErrors, isAuthenticated } = useAuth();
+  const { signin, errors: loginErrors, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const onSubmit = handleSubmit((data) => {
     signin(data);
@@ -23,7 +23,7 @@ function LoginPage() {
   return (
     <div className="flex h-[calc(100vh-100px)] items-center justify-center">
       <div className="bg-zinc-800 max-w-md w-full p-10 rounded-md">
-        {signingErrors.map((error, i) => (
+        {loginErrors.map((error, i) => (
           <div className="bg-red-500 p-2 text-white my-1" key={i}>
             {error}
           </div>
@@ -52,7 +52,7 @@ function LoginPage() {
             <p className="text-red-500 text-xs">Este campo es obligatorio</p>
           )}
 
-          <button type="submit">Loguearse</button>
+          <button className="bg-indigo-500 px-4 py-1 rounded-lg font-bold" type="submit">Loguearse</button>
         </form>
 
         <p className="flex gap-x-2 justify-between">

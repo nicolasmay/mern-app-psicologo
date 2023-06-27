@@ -14,7 +14,7 @@ function Navbar() {
       <ul className="flex gap-x-2">
         {isAuthenticated ? (
           <>
-            <l1 className="px-5 font-bold">Bienvenido: {user.email}</l1>
+            <l1 className="px-5 font-bold">Conectado con: {user.email}</l1>
             <l1>
               <Link
                 to="/add-citas"

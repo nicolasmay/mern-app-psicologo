@@ -28,8 +28,7 @@ export const AuthProvider = ({ children }) => {
       setUser(res.data);
       setIsAuthenticated(true);
     } catch (error) {
-      /*Aqui le puse 'error.response.data.message'
-             pero en el video fazt puso otras cosas minuto 2:37:00 aprox por si no funciona*/
+      
       setError(error.response.data);
       console.log(error.response);
     }
@@ -41,10 +40,10 @@ export const AuthProvider = ({ children }) => {
       const res = await loginRequest(user);
       setUser(res.data);
       setIsAuthenticated(true);
-      console.log(errors);
+      
     } catch (error) {
       console.log(error);
-      //setError([error.response.data.message]);
+      setError([error.response.data]);
     }
   };
 
