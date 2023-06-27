@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useCitas } from "../context/CitasContext";
-
+import CitasCard from "../components/CitasCard";
 function CitasPage() {
   const { getCitas, citas } = useCitas();
 
@@ -12,16 +12,9 @@ function CitasPage() {
     return <h1>No hay citas</h1>;
   }
   return (
-    <div>
+    <div className="grid grid-cols-4 gap-1">
       {citas.map((cita) => (
-        <div
-          key={cita._id}
-          className="bg-zinc-800 max-w-md w-full p-10 rounded-md"
-        >
-          <h1>{cita.paciente}</h1>
-          <p>{cita.comentario}</p>
-          <h1>{cita.date}</h1>
-        </div>
+        <CitasCard cita={cita} key={cita._id} />
       ))}
     </div>
   );

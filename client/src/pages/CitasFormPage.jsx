@@ -1,15 +1,40 @@
 import { useForm } from "react-hook-form";
 import { useCitas } from "../context/CitasContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
+
 function CitasFormPage() {
-  const { register, handleSubmit } = useForm();
-  const { createCita } = useCitas();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm();
+  const { createCita, getCita, updateCita } = useCitas();
   const navigate = useNavigate();
+  const params = useParams();
+
+  useEffect(() => {
+    async function loadCita() {
+      if (params.id) {
+        const cita = await getCita(params.id);
+        setValue("paciente", cita.paciente);
+        setValue("nombre", cita.nombre);
+        setValue("apellido", cita.apellido);
+        setValue("comentario", cita.comentario);
+        setValue("date", cita.date);
+      }
+    }
+    loadCita();
+  }, []);
 
   const onSubmit = handleSubmit((data) => {
-    createCita(data);
+    if (params.id) {
+      updateCita(params.id, data);
+    } else {
+      createCita(data);
+    }
     navigate("/citas");
-    console.log(Error);
   });
 
   return (
@@ -18,25 +43,52 @@ function CitasFormPage() {
         <input
           type="text"
           placeholder="Ingresa RUT"
-          {...register("paciente")}
+          {...register("paciente", { required: true })}
           className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-3"
           autoFocus
         />
+        {errors.paciente && (
+          <p className="text-red-500 text-xs">Este campo es obligatorio</p>
+        )}
+        <textarea
+          rows="3"
+          placeholder="Ingresa tu nombre"
+          {...register("nombre", { required: true })}
+          className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-3"
+        ></textarea>
+        {errors.nombre && (
+          <p className="text-red-500 text-xs">Este campo es obligatorio</p>
+        )}
+        <textarea
+          rows="3"
+          placeholder="Ingresa tu apellido"
+          {...register("apellido", { required: true })}
+          className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-3"
+        ></textarea>
+        {errors.apellido && (
+          <p className="text-red-500 text-xs">Este campo es obligatorio</p>
+        )}
 
         <textarea
           rows="3"
           placeholder="Cuentanos un sobre tu motivo de consulta"
-          {...register("comentario")}
+          {...register("comentario", { required: true })}
           className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-3"
         ></textarea>
+        {errors.comentario && (
+          <p className="text-red-500 text-xs">Este campo es obligatorio</p>
+        )}
         <label for="date">Elige una hora para tu cita</label>
         <input
           type="datetime-local"
           placeholder="date"
-          {...register("date")}
+          {...register("date", { required: true })}
           className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-3"
           autoFocus
         />
+        {errors.date && (
+          <p className="text-red-500 text-xs">Este campo es obligatorio</p>
+        )}
 
         <label
           for="date"

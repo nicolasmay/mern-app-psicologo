@@ -7,7 +7,7 @@ function Navbar() {
   return (
     <nav className="bg-zinc-700 my-3 flex justify-between py-5 px-10 rounded-lg">
       <l1>
-        <Link to="/">
+        <Link to={isAuthenticated ? "/citas" : "/"}>
           <h1 className="text-2xl font-bold">Inicio</h1>
         </Link>
       </l1>
