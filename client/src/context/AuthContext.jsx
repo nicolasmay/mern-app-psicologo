@@ -1,6 +1,12 @@
 import { useEffect } from "react";
 import { createContext, useState, useContext } from "react";
-import { registerRequest, loginRequest, verifyTokenRequest } from "../api/auth";
+import {
+  registerRequest,
+  loginRequest,
+  verifyTokenRequest,
+  AdminloginRequest,
+  adminVerifyTokenRequest,
+} from "../api/auth";
 import Cookies from "js-cookie";
 import { set } from "mongoose";
 
@@ -16,6 +22,7 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(null); // [1
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [errors, setError] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -28,7 +35,6 @@ export const AuthProvider = ({ children }) => {
       setUser(res.data);
       setIsAuthenticated(true);
     } catch (error) {
-      
       setError(error.response.data);
       console.log(error.response);
     }
@@ -40,7 +46,17 @@ export const AuthProvider = ({ children }) => {
       const res = await loginRequest(user);
       setUser(res.data);
       setIsAuthenticated(true);
-      
+    } catch (error) {
+      console.log(error);
+      setError([error.response.data]);
+    }
+  };
+
+  const adminsignin = async (isAdmin) => {
+    try {
+      const res = await AdminloginRequest(isAdmin);
+      setIsAdmin(res.data);
+      setIsAuthenticated(true);
     } catch (error) {
       console.log(error);
       setError([error.response.data]);
@@ -50,6 +66,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     Cookies.remove("token");
     setIsAuthenticated(false);
+    setIsAdmin(false);
     setUser(null);
   };
 
@@ -91,6 +108,35 @@ export const AuthProvider = ({ children }) => {
     checkLogin();
   }, []);
 
+  useEffect(() => {
+    async function checkLoginAdmin() {
+      const cookies = Cookies.get();
+      //3:26:51 para el tema de cookies etc
+      if (!cookies.token) {
+        setIsAuthenticated(false);
+        setLoading(false);
+        setIsAdmin(null);
+      }
+      try {
+        const res = await adminVerifyTokenRequest(cookies.token);
+        if (!res.data) {
+          setIsAuthenticated(false);
+          setLoading(false);
+          return;
+        }
+
+        setIsAuthenticated(true);
+        setIsAdmin(res.data);
+        setLoading(false);
+      } catch (error) {
+        setIsAuthenticated(false);
+        setIsAdmin(null);
+        setLoading(false);
+      }
+    }
+    checkLoginAdmin();
+  }, []);
+
   return (
     <AuthContext.Provider
       value={{
@@ -99,7 +145,9 @@ export const AuthProvider = ({ children }) => {
         logout,
         loading,
         user,
+        isAdmin,
         isAuthenticated,
+        adminsignin,
         errors,
       }}
     >

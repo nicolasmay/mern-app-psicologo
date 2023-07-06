@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function HomePage() {
   return (
@@ -18,6 +19,13 @@ function HomePage() {
           <img className="rounded-full" src="/alex.jpg"></img>
         </a>
       </div>
+
+      <Link
+        className="font-thin text-xs fixed inset-x-0 bottom-0 text-white"
+        to={"/loginadmin"}
+      >
+        Admin login
+      </Link>
     </div>
   );
 }

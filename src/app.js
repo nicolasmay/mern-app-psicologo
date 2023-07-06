@@ -5,6 +5,8 @@ import cors from "cors";
 
 import authRoutes from "./routes/auth.routes.js";
 import citaRoutes from "./routes/cita.routes.js";
+import adminRoutes from "./routes/admin.routes.js";
+import adminCitaRoutes from "./routes/admin.cita.routes.js";
 
 const app = express();
 
@@ -24,5 +26,7 @@ app.use(cookieParser());
 
 app.use("/api", authRoutes);
 app.use("/api", citaRoutes);
+app.use("/api", adminRoutes);
+app.use("/api", adminCitaRoutes);
 
 export default app;

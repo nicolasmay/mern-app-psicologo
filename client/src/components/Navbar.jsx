@@ -2,26 +2,43 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 function Navbar() {
-  const { isAuthenticated, logout, user } = useAuth();
+  const { isAuthenticated, logout, user, isAdmin } = useAuth();
 
   return (
     <nav className="bg-zinc-700 my-3 flex justify-between py-5 px-10 rounded-lg">
-      <l1>
-        <Link to={isAuthenticated ? "/citas" : "/"}>
+      {isAuthenticated ? (
+        <l1>
+          <Link to={user ? "/citas" : "/"}>
+            <h1 className="text-2xl font-bold">Inicio</h1>
+          </Link>
+
+          {isAdmin ? (
+            <Link to={isAdmin ? "/citas-admin" : "/"}>
+              <h1 className="text-2xl font-bold">Citas pacientes</h1>
+            </Link>
+          ) : null}
+        </l1>
+      ) : (
+        <Link to={"/"}>
           <h1 className="text-2xl font-bold">Inicio</h1>
         </Link>
-      </l1>
+      )}
       <ul className="flex gap-x-2">
         {isAuthenticated ? (
           <>
-            <l1 className="px-5 font-bold">Conectado con: {user.email}</l1>
+            <l1 className="px-5 font-bold">
+              Bienvenido: {isAdmin ? isAdmin.email : ""}
+              {user ? user.email : ""}
+            </l1>
             <l1>
-              <Link
-                to="/add-citas"
-                className="bg-indigo-500 px-4 py-1 rounded-sm font-bold"
-              >
-                Agenda tu cita
-              </Link>
+              {user ? (
+                <Link
+                  to="/add-citas"
+                  className="bg-indigo-500 px-4 py-1 rounded-sm font-bold"
+                >
+                  Agenda tu cita
+                </Link>
+              ) : null}
             </l1>
             <l1>
               <Link
@@ -51,6 +68,8 @@ function Navbar() {
           </>
         )}
       </ul>
+
+      {/* admin Navbar */}
     </nav>
   );
 }
